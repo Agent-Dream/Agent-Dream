@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PADDOCK 26 · Campeonato F1 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;0,900;1,700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grid-overlay" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <div class="brand">
+      <span class="brand__mark">26</span>
+      <div class="brand__text">
+        <strong>PADDOCK</strong>
+        <small>Campeonato F1 · Temporada 2026</small>
+      </div>
+    </div>
+
+    <nav class="nav" id="nav">
+      <button class="nav__btn is-active" data-view="inicio">Inicio</button>
+      <button class="nav__btn" data-view="calendario">Calendario</button>
+      <button class="nav__btn" data-view="resultados">Resultados</button>
+      <button class="nav__btn" data-view="pilotos">Pilotos</button>
+      <button class="nav__btn" data-view="equipos">Equipos</button>
+      <button class="nav__btn" data-view="valoraciones">Valoraciones</button>
+      <button class="nav__btn" data-view="historial">Historial</button>
+      <button class="nav__btn" data-view="graficos">Gráficos</button>
+    </nav>
+
+    <button class="burger" id="burger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="season-progress" title="Progreso de la temporada">
+    <div class="season-progress__fill" id="seasonProgressFill"></div>
+    <span class="season-progress__label" id="seasonProgressLabel">0 / 22 carreras</span>
+  </div>
+</header>
+
+<main id="app">
+
+  <!-- ===================== INICIO ===================== -->
+  <section class="view is-active" id="view-inicio" data-view="inicio">
+    <div class="hero">
+      <div class="hero__title-block">
+        <p class="eyebrow">Temporada 2026 · Nueva era de reglamento</p>
+        <h1 class="hero__title">El campeonato,<br><span class="accent">carrera a carrera.</span></h1>
+        <p class="hero__sub">Introduce los resultados de cada Gran Premio y carrera Sprint. Los puntos, las clasificaciones y los desempates se recalculan al instante.</p>
+      </div>
+      <div class="hero__next" id="heroNext"></div>
+    </div>
+
+    <div class="stat-row" id="statRow"></div>
+
+    <div class="home-grid">
+      <div class="panel panel--tower">
+        <div class="panel__head">
+          <h2>Mundial de Pilotos</h2>
+          <button class="link-btn" data-view="pilotos">Ver todo →</button>
+        </div>
+        <div class="timing-tower" id="homeDriverTower"></div>
+      </div>
+
+      <div class="panel panel--tower">
+        <div class="panel__head">
+          <h2>Mundial de Constructores</h2>
+          <button class="link-btn" data-view="equipos">Ver todo →</button>
+        </div>
+        <div class="timing-tower timing-tower--teams" id="homeTeamTower"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CALENDARIO ===================== -->
+  <section class="view" id="view-calendario" data-view="calendario">
+    <div class="view-head">
+      <h1>Calendario 2026</h1>
+      <p>22 Grandes Premios · 6 carreras Sprint</p>
+    </div>
+    <div class="race-list" id="raceList"></div>
+  </section>
+
+  <!-- ===================== RESULTADOS ===================== -->
+  <section class="view" id="view-resultados" data-view="resultados">
+    <div class="view-head">
+      <h1>Cargar / Modificar resultados</h1>
+      <p>Elige una carrera, asigna la posición de cada piloto y guarda. Puedes volver a editarla cuando quieras.</p>
+    </div>
+
+    <div class="race-picker" id="racePicker"></div>
+
+    <div id="simBox"></div>
+    <div id="resultForm"></div>
+  </section>
+
+  <!-- ===================== PILOTOS ===================== -->
+  <section class="view" id="view-pilotos" data-view="pilotos">
+    <div class="view-head view-head--row">
+      <div>
+        <h1>Campeonato de Pilotos</h1>
+        <p>Ordenado por puntos. Empates resueltos por desempate oficial FIA (nº de victorias, 2º puestos, 3º puestos…).</p>
+      </div>
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="text" id="driverSearch" placeholder="Buscar piloto o equipo…">
+      </div>
+    </div>
+    <div class="timing-tower timing-tower--full" id="driverStandings"></div>
+  </section>
+
+  <!-- ===================== EQUIPOS ===================== -->
+  <section class="view" id="view-equipos" data-view="equipos">
+    <div class="view-head">
+      <h1>Campeonato de Constructores</h1>
+      <p>Suma de puntos de ambos pilotos de cada equipo, Gran Premio y Sprint.</p>
+    </div>
+    <div class="timing-tower timing-tower--teams timing-tower--full" id="teamStandings"></div>
+  </section>
+
+  <!-- ===================== VALORACIONES ===================== -->
+  <section class="view" id="view-valoraciones" data-view="valoraciones">
+    <div class="view-head">
+      <h1>Valoraciones (GRL)</h1>
+      <p>Ajusta el nivel de cada piloto y el rendimiento de cada coche. Estos valores alimentan al simulador de carreras en la pestaña "Resultados". Son valores editables, no oficiales.</p>
+    </div>
+    <div class="ratings-grid">
+      <div class="panel">
+        <div class="panel__head"><h2>Nivel de piloto</h2><button class="link-btn" id="resetDriverRatings">Restablecer</button></div>
+        <div id="driverRatingList" class="rating-list"></div>
+      </div>
+      <div class="panel">
+        <div class="panel__head"><h2>Rendimiento del coche</h2><button class="link-btn" id="resetCarRatings">Restablecer</button></div>
+        <div id="carRatingList" class="rating-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HISTORIAL ===================== -->
+  <section class="view" id="view-historial" data-view="historial">
+    <div class="view-head">
+      <h1>Historial de carreras</h1>
+      <p>Resumen y reparto de puntos de cada carrera disputada.</p>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </section>
+
+  <!-- ===================== GRAFICOS ===================== -->
+  <section class="view" id="view-graficos" data-view="graficos">
+    <div class="view-head">
+      <h1>Evolución del campeonato</h1>
+      <p>Puntos acumulados ronda a ronda. Selecciona qué pilotos mostrar.</p>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="evoChart" width="1200" height="520"></canvas>
+    </div>
+    <div class="chart-legend" id="chartLegend"></div>
+  </section>
+
+</main>
+
+<!-- Modal de detalle de piloto -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="driverModal" role="dialog" aria-modal="true"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
